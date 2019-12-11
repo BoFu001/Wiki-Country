@@ -2,12 +2,11 @@
 //  Country.swift
 //  Wiki Country
 //
-//  Created by Ordineat on 04/12/2019.
-//  Copyright © 2019 Ordineat. All rights reserved.
+//  Created by BoFu on 04/12/2019.
+//  Copyright © 2019 BoFu. All rights reserved.
 //
 
 import Foundation
-
 
 // MARK: - CountryModel
 struct Country: Codable {
@@ -28,6 +27,9 @@ struct Country: Codable {
     let numericCode: String?
     let currencies: [Currency]
     let languages: [Language]
+    var formattedLanguage: String {
+        return languages.compactMap({ $0.name }).joined(separator: ", ")
+    }
     let translations: Translations
     let flag: String
     let regionalBlocs: [RegionalBloc]

@@ -2,8 +2,8 @@
 //  HttpStatusTests.swift
 //  Wiki CountryTests
 //
-//  Created by Ordineat on 07/12/2019.
-//  Copyright © 2019 Ordineat. All rights reserved.
+//  Created by BoFu on 07/12/2019.
+//  Copyright © 2019 BoFu. All rights reserved.
 //
 
 import XCTest
@@ -11,12 +11,7 @@ import XCTest
 
 class HttpStatusTests: XCTestCase {
 
-
-    
-    
-    
-    
-    func httpStatusTest() {
+    func testHttpStatusCode200() {
         
         let promise = expectation(description: "Status code: 200")
         
@@ -42,11 +37,6 @@ class HttpStatusTests: XCTestCase {
         }
         
         wait(for: [promise], timeout: 5)
-        
-        
     }
-
     
-    
-
 }

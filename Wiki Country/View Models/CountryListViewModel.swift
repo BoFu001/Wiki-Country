@@ -2,12 +2,11 @@
 //  CountryListViewModel.swift
 //  Wiki Country
 //
-//  Created by Ordineat on 04/12/2019.
-//  Copyright © 2019 Ordineat. All rights reserved.
+//  Created by BoFu on 04/12/2019.
+//  Copyright © 2019 BoFu. All rights reserved.
 //
 
 import Foundation
-
 
 struct CountryListViewModel {
     

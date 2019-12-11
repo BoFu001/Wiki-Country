@@ -2,8 +2,8 @@
 //  AppDelegate.swift
 //  Wiki Country
 //
-//  Created by Ordineat on 04/12/2019.
-//  Copyright © 2019 Ordineat. All rights reserved.
+//  Created by BoFu on 04/12/2019.
+//  Copyright © 2019 BoFu. All rights reserved.
 //
 
 import UIKit
@@ -15,13 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        
-        
-        var filterViewModel = FilterViewModel()
-        filterViewModel.selectedFilter = nil
-        
-        
+
+        UserDefaults.standard.removeObject(forKey: "filter")
+        UserDefaults.standard.removeObject(forKey: "lastFilter")
         return true
     }
 

@@ -2,13 +2,12 @@
 //  Webservice.swift
 //  Wiki Country
 //
-//  Created by Ordineat on 04/12/2019.
-//  Copyright © 2019 Ordineat. All rights reserved.
+//  Created by BoFu on 04/12/2019.
+//  Copyright © 2019 BoFu. All rights reserved.
 //
 import Foundation
 
-
-class Webservice {
+struct Webservice {
     
     func getCountries(url: URL, completion: @escaping ([Country]?) -> ()) {
         
@@ -26,6 +25,7 @@ class Webservice {
                     completion(okLoadedData)
                 } catch let error{
                     print(error)
+                    completion(nil)
                 }
 
             }

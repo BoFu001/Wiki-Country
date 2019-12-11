@@ -2,8 +2,8 @@
 //  CountryDetailViewController.swift
 //  Wiki Country
 //
-//  Created by Ordineat on 05/12/2019.
-//  Copyright © 2019 Ordineat. All rights reserved.
+//  Created by BoFu on 05/12/2019.
+//  Copyright © 2019 BoFu. All rights reserved.
 //
 
 import UIKit
@@ -32,26 +32,7 @@ class CountryDetailViewController: UIViewController {
         self.capitalLabel.text = countryModel?.capital
         self.regionLabel.text = countryModel?.region
         self.subregionLabel.text = countryModel?.subregion
-        self.populationLabel.text = countryModel?.population.formatAsPopulation
-        self.languageLabel.text = format(countryModel?.languages)
-    }
-}
-
-
-
-extension CountryDetailViewController {
-    func format(_ languages: [Language]?) -> String {
-        if let languages = languages {
-            var str = ""
-            for i in 0..<languages.count {
-                str += languages[i].name
-                if i < languages.count - 1 {
-                    str += ", "
-                }
-            }
-            return str
-        } else {
-            return ""
-        }
+        self.populationLabel.text = countryModel?.population.toString
+        self.languageLabel.text = countryModel?.formattedLanguage
     }
 }

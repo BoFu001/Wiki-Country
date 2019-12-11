@@ -2,27 +2,26 @@
 //  FilterViewController.swift
 //  Wiki Country
 //
-//  Created by Ordineat on 05/12/2019.
-//  Copyright © 2019 Ordineat. All rights reserved.
+//  Created by BoFu on 05/12/2019.
+//  Copyright © 2019 BoFu. All rights reserved.
 //
 
 import UIKit
-
-
 
 protocol FilterDelegate {
     func filterData(_ key: String)
 }
 
-class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
-    private var filterViewModel = FilterViewModel()
-    @IBOutlet weak var filterOptionTable: UITableView!
+class FilterViewController: UIViewController {
 
     var delegate: FilterDelegate?
+    private var filterViewModel = FilterViewModel()
+    @IBOutlet weak var filterOptionTable: UITableView!
     
     @IBOutlet weak var buttonView: UIView!
     @IBOutlet weak var cleanButton: UIButton!
+    @IBOutlet weak var saveButton: UIButton!
+    
     @IBAction func cleanAction(_ sender: UIButton) {
 
         if let indexPath = self.filterOptionTable.indexPathForSelectedRow {
@@ -33,19 +32,18 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         self.filterViewModel.selectedFilter = nil
     }
-    @IBOutlet weak var saveButton: UIButton!
     @IBAction func saveAction(_ sender: UIButton) {
 
         if let indexPath = self.filterOptionTable.indexPathForSelectedRow {
-            if let delegate = self.delegate {
-                delegate.filterData(filterViewModel.optionAtIndex(indexPath.row).rawValue)
-                self.filterViewModel.selectedFilter = Filter.allCases[indexPath.row]
-            }
+            self.delegate?.filterData(filterViewModel.optionAtIndex(indexPath.row).rawValue)
+            self.filterViewModel.selectedFilter = Filter.allCases[indexPath.row]
         } else {
-            delegate?.filterData("")
+            self.delegate?.filterData("")
+        }
+        if self.filterViewModel.lastSelectedFilter != self.filterViewModel.selectedFilter {
+            setTrail()
         }
         self.navigationController?.popViewController(animated: true)
-
     }
     
     
@@ -55,17 +53,11 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         setupUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        setSelectedFilters()
+    }
+    
     private func setupUI() {
-        
-        
-        if let selectedFilter = self.filterViewModel.selectedFilter {
-            guard let index = self.filterViewModel.options.firstIndex(of: selectedFilter) else {
-                fatalError("index of selectedFilter not found")
-            }
-            filterOptionTable.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
-        }
-
-        
         navigationItem.hidesBackButton = true
         
         buttonView.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
@@ -81,6 +73,27 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         saveButton.layer.cornerRadius = 5
     }
     
+    private func setSelectedFilters() {
+        self.filterViewModel.lastSelectedFilter = self.filterViewModel.selectedFilter
+        if let selectedFilter = self.filterViewModel.selectedFilter {
+            
+            guard let index = self.filterViewModel.options.firstIndex(of: selectedFilter) else {
+                fatalError("index of selectedFilter not found")
+            }
+            filterOptionTable.selectRow(at: IndexPath(row: index, section: 0), animated: false, scrollPosition: .none)
+        }
+        
+    }
+    
+    private func setTrail() {
+        UserDefaults.standard.set(true, forKey: "backToTop")
+    }
+    
+}
+
+
+extension FilterViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 80
     }
@@ -94,15 +107,11 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "FilterTableViewCell", for: indexPath)
         cell.textLabel?.text = filterViewModel.optionAtIndex(indexPath.row).rawValue
         
-        
         if self.filterViewModel.selectedFilter == self.filterViewModel.options[indexPath.row] {
             cell.accessoryType = .checkmark
         }
-        
-        
         return cell
     }
-    
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
@@ -113,7 +122,6 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.accessoryType = .checkmark
         }
     }
-
     
     func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
@@ -126,5 +134,4 @@ class FilterViewController: UIViewController, UITableViewDelegate, UITableViewDa
             cell.backgroundColor = .white
         }
     }
-
 }
